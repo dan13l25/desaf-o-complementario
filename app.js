@@ -3,6 +3,7 @@ import handlebars from "express-handlebars"
 import { Server } from "socket.io"
 import mongoose from "mongoose"
 import __dirname from './utils.js';
+import { productRouter } from "./routes/productRouter.js";
 
 const app = express()
 const port = process.env.port || 8080
@@ -15,6 +16,8 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(express.static(__dirname+'/public'))
 app.engine('handlebars', handlebars.engine())
+
+app.use("/api/products", productRouter)
 
 
 const connectMongoDB = async () => {
