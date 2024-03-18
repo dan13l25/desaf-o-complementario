@@ -37,7 +37,7 @@ productRouter.post("/post", async (req, res) => {
     try {
         const { title, description, price, thumbnail, code, stock, status = true, category } = req.body;
         await productManager.addProduct(title, description, price, thumbnail, code, stock, status, category);
-        res.send("Producto agregado correctamente");
+        res.json(product);
     } catch (error) {
         console.error(error);
         res.status(500).send("Error al agregar producto");

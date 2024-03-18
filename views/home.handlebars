@@ -1,0 +1,12 @@
+<h1>Buen Dia</h1>
+
+<div>
+    <h2>bienvenido al chat</h2>
+    <input id="chatbox">
+    {{#each msg as |obj|}}
+    {{obj.socketid}}: {{obj.message}}
+    {{/each}}
+    <p id="log"></p>
+</div>
+
+<script src="/js/chat.js"></script>

@@ -19,6 +19,9 @@ app.engine('handlebars', handlebars.engine())
 
 app.use("/api/products", productRouter)
 
+app.get("/", (req,res) =>{
+    res.render("home")
+})
 
 const connectMongoDB = async () => {
     const DB_URL = "mongodb+srv://dan13l:dani06011998@cluster0.pm7efvk.mongodb.net/"
