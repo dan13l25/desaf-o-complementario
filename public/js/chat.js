@@ -1,21 +1,35 @@
+const socket = io()
+
 const chatbox = document.getElementById("chatbox")
 const log = document.getElementById("log")
+const usernameForm = document.getElementById("usernameForm")
+const usernameInput = document.getElementById("usernameInput")
+const chatSection = document.getElementById("chatSection")
+
+let user = null; 
+
+usernameForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const username = usernameInput.value.trim();
+    if (username) {
+        user = username; 
+        usernameForm.style.display = "none"; 
+        chatSection.style.display = "block"; 
+    }
+});
 
 chatbox.addEventListener('keyup', e =>{
-    if(e.key === "Enter"){
-        console.log(chatbox.value)
-        socket.emit('message',{user: user, message:chatbox.value})
+    if(e.key === "Enter" && user){
+        const now = new Date();
+        const time = now.toLocaleTimeString();
+        socket.emit('message', { user: user, message: chatbox.value, time: time });
     }
-})
+});
 
 socket.on('messageLogs', data => {
-    
-    let messages = ""
-
+    let messages = "";
     data.forEach(msg => {
-        messages+= `${msg.user} dice ${msg.message}<br/>`
+        messages += `${msg.user} dice (${msg.time}): ${msg.message}<br/>`;
     });
-
-    log.innerHTML=messages
-
-})
+    log.innerHTML = messages;
+});

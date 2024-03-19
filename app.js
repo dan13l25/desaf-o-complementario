@@ -39,4 +39,15 @@ connectMongoDB()
 
 const io = new Server(server)
 
+const msg = []
+
+io.on("connection", (socket) => {
+    console.log("Nuevo usuario conectado:", socket.id);
+    socket.on("message", (data)=> {
+        
+        msg.push(data)
+        io.emit('messageLogs', msg)
+        
+    })
+}); 
 
