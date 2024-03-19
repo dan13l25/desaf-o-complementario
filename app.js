@@ -5,6 +5,7 @@ import mongoose from "mongoose"
 import __dirname from './utils.js';
 import { productRouter } from "./routes/productRouter.js";
 import { cartRouter } from "./routes/cartRouter.js";
+import messagesModel from "./dao/models/message.js";
 
 const app = express()
 const port = process.env.port || 8080
@@ -19,7 +20,7 @@ app.use(express.static(__dirname+'/public'))
 app.engine('handlebars', handlebars.engine())
 
 app.use("/api/products", productRouter)
-app.use("/api/carts", cartRouter); // Utiliza cartRouter
+app.use("/api/carts", cartRouter); 
 
 
 app.get("/", (req,res) =>{
@@ -46,11 +47,15 @@ const msg = []
 
 io.on("connection", (socket) => {
     console.log("Nuevo usuario conectado:", socket.id);
-    socket.on("message", (data)=> {
-        
-        msg.push(data)
-        io.emit('messageLogs', msg)
-        
-    })
-}); 
+    
+    socket.on("message", async (data) => {
+        try {
+            const newMessage = new messagesModel(data);
+            await newMessage.save();
+            io.emit('messageLogs', await messagesModel.find());
+        } catch (error) {
+            console.error("Error al guardar el mensaje:", error);
+        }
+    });
+});
 

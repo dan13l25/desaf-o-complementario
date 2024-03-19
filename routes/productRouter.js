@@ -48,8 +48,8 @@ productRouter.get("/brand/:brand", async (req, res) => {
 
 productRouter.post("/post", async (req, res) => {
     try {
-        const { title, description, price, thumbnail, code, stock, status = true, category, brand } = req.body; // Aquí agregamos brand al destructurar req.body
-        const product = await productManager.addProduct(title, description, price, thumbnail, code, stock, status, category, brand); // Aquí pasamos brand como argumento a addProduct
+        const { title, description, price, thumbnail, code, stock, status = true, category, brand } = req.body; 
+        const product = await productManager.addProduct(title, description, price, thumbnail, code, stock, status, category, brand); 
         res.json(product); 
     } catch (error) {
         console.error(error);
@@ -61,8 +61,8 @@ productRouter.put("/:pid", async (req, res) => {
     const { pid } = req.params;
 
     try {
-        const { title, description, price, thumbnail, code, stock, status = true, category, brand } = req.body; // También agregamos brand aquí
-        await productManager.updateProduct(pid, { title, description, price, thumbnail, code, stock, status, category, brand }); // Y aquí lo pasamos al método updateProduct
+        const { title, description, price, thumbnail, code, stock, status = true, category, brand } = req.body; 
+        await productManager.updateProduct(pid, { title, description, price, thumbnail, code, stock, status, category, brand }); 
         res.send("Producto actualizado correctamente");
     } catch (error) {
         console.error(error);

@@ -21,15 +21,16 @@ usernameForm.addEventListener('submit', e => {
 chatbox.addEventListener('keyup', e =>{
     if(e.key === "Enter" && user){
         const now = new Date();
-        const time = now.toLocaleTimeString();
+        const time = now.toLocaleTimeString(); 
         socket.emit('message', { user: user, message: chatbox.value, time: time });
+        chatbox.value = ""; 
     }
 });
 
 socket.on('messageLogs', data => {
     let messages = "";
     data.forEach(msg => {
-        messages += `${msg.user} dice (${msg.time}): ${msg.message}<br/>`;
+        messages += `${msg.user} dice ${msg.message} enviado a las (${msg.time}) <br/>`;
     });
     log.innerHTML = messages;
 });
