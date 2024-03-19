@@ -54,8 +54,10 @@ export default class ProductManager {
     getByBrand = async (brand) => {
         try {
             const products = await Product.find({ brand });
+            return products; 
         } catch (error) {
             console.error("Error al obtener los productos por marca:", error.message);
+            throw error; 
         }
     };
 
