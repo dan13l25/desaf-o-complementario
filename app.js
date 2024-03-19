@@ -4,6 +4,7 @@ import { Server } from "socket.io"
 import mongoose from "mongoose"
 import __dirname from './utils.js';
 import { productRouter } from "./routes/productRouter.js";
+import { cartRouter } from "./routes/cartRouter.js";
 
 const app = express()
 const port = process.env.port || 8080
@@ -18,6 +19,8 @@ app.use(express.static(__dirname+'/public'))
 app.engine('handlebars', handlebars.engine())
 
 app.use("/api/products", productRouter)
+app.use("/api/carts", cartRouter); // Utiliza cartRouter
+
 
 app.get("/", (req,res) =>{
     res.render("home")

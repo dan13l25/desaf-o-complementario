@@ -20,7 +20,6 @@ export default class CartManager {
         try {
             const newCart = new cartsModel({ products: [] });
             await newCart.save();
-            console.log("Nuevo carrito creado:", newCart);
             return newCart;
         } catch (error) {
             console.error("Error al crear el carrito:", error.message);
@@ -50,7 +49,6 @@ export default class CartManager {
             }
 
             await cart.save();
-            console.log("Producto añadido al carrito:", product);
         } catch (error) {
             console.error("Error al añadir producto al carrito:", error.message);
         }
@@ -68,7 +66,6 @@ export default class CartManager {
             if (index !== -1) {
                 cart.products.splice(index, 1);
                 await cart.save();
-                console.log("Producto eliminado del carrito.");
             } else {
                 console.log("El producto no está en el carrito.");
             }
