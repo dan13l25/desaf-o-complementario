@@ -1,10 +1,8 @@
 import express from "express";
 import ProductManager from "../dao/manager/productManager.js";
-import CartManager from "../dao/manager/cartManager.js";
 
 const productRouter = express.Router();
 const productManager = new ProductManager();
-const cartManager = new CartManager();
 
 productRouter.get("/", async (req, res) => {
     try {
@@ -25,8 +23,12 @@ productRouter.get("/", async (req, res) => {
 productRouter.get("/:pid", async (req, res) => {
     try {
         const { pid } = req.params;
-        const product = await productManager.getProductById(pid);
-        res.json(product);
+        const product = await productManager.getProductById({_id:pid});
+        if (product) {
+            res.json(product);
+        } else {
+            res.status(404).send("Producto no encontrado");
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send("Error al recibir el ID del producto");
@@ -36,8 +38,8 @@ productRouter.get("/:pid", async (req, res) => {
 productRouter.post("/post", async (req, res) => {
     try {
         const { title, description, price, thumbnail, code, stock, status = true, category } = req.body;
-        await productManager.addProduct(title, description, price, thumbnail, code, stock, status, category);
-        res.json(product);
+        const product = await productManager.addProduct(title, description, price, thumbnail, code, stock, status, category);
+        res.json(product); 
     } catch (error) {
         console.error(error);
         res.status(500).send("Error al agregar producto");
